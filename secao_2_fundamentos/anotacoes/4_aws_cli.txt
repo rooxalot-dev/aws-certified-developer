@@ -1,0 +1,38 @@
+O que é?
+    - A AWS CLI é uma ferramenta de linha de comando para acesso e gerenciamento de serviços AWS
+
+Caracteristicas principais?
+    - Acesso a TODOS os serviços AWS via o terminal (o acesso de fato se dá se o user logado tem as permissões necessárias)
+    - Automatização de tarefas com scripts (via powershell, bash, etc)
+    - Saída em cários formatos (JSON, csv, txt, xml, etc)
+    - Suporte a profiles para multiplas contas e regiões
+
+Versão atual recomendada
+    - AWS CLI v2
+
+Comandos e detalhes:
+    + comando `aws confiure`
+        - Configura o perfil default com Access Key ID, Secret Access Key, região e formato de saída
+        - Pode-se criar multiplos perfis com o comando: aws configure --profile <nome_do_perfil>
+        - As credenciais ficam normalmente armazenadas em ~/.aws/credentials e as configurações em ~/.aws/config
+        - É possível configurar o profile padrão definindo o nome do perfil a variavel de ambiente AWS_PROFILE
+            - No powershell via `$env:AWS_PROFILE = "<nome_do_perfil>"`
+            - Em bash via `export AWS_PROFILE="<nome_do_perfil>"`
+
+    + Detalhe: preferência do profile das credenciais:
+        - Direto na linha de comando (via argumento --profile), executa aquela ação usando aquele profile especifico
+        - Variavel de ambiente AWS_PROFILE, executa aquela ação usando o profile definido nela
+        - arquivo ~/.aws/credentials, executa aquela ação usando o profile default
+
+PONTOS CHAVES DO EXAME:
+    - Arquivos:
+        + ~/.aws/credentials: Armazena as credenciais (Access Key ID e Secret Access Key) de cada profile
+        + ~/.aws/config: Armazena as configurações (região e formato de saída) de cada profile
+    - Ordem de preferência de credenciais/profiles:
+        + Diretamente na linha de comando (via argumento --profile)
+        + Variavel de ambiente AWS_PROFILE
+        + Arquivo ~/.aws/credentials
+        + IAM Role
+    - Named profiles (perfis nomeados)
+        + Rodar comandos com --profile ou definir o profile padrão via variável de ambiente AWS_PROFILE
+        + Para debegging e confirmação, rodar o comando `aws sts get-caller-identity`

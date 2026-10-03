@@ -1,0 +1,13 @@
+Geral:
+    - Desde julho de 2025, o Free Tier tem disponível até $200 em creditos (validas por até 6 meses);
+
+Anotações criticas (aparecem em prova)
+    - É fortemente recomendado e reforçado a habilitação do MFA (Multi Factor Authentication) na conta root da AWS, por se tratar do seu usuário com maiores privilégios;
+    - Após isso, deve-se criar um usuário IAM para tarefas diarias, evitando assim a utilização do user root, que é usado para tarefas administrativas.
+    - Configurar depois alertas de billing (de cobrança) via AWS Budgets para evitar assim cobranças indesejadas
+    - Definição da região padrão (no exemplo está a mais proxima que é São Paulo, mas normalmente eu configuro US-East-1, que é a região mais barata e com maior disponibilidade de serviços)
+
+Pontos chave
+    - Usuário Root é apenas para tarefas administrativas, já o criado no IAM é para as tarefas do dia a dia
+    - MFA é obrigatório no root, com foco no princípio de "menor priviégio desde o início"
+    - PONTO CHAVE: Se a pergunta tiver proteger conta root": pense "MFA + não usar no dia a dia"

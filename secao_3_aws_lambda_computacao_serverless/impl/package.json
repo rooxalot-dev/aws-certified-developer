@@ -1,0 +1,26 @@
+{
+  "name": "lab_1_aws_lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx watch src/index.ts",
+    "build": "tsc --build",
+    "postbuild": "zip -r dist/lambda.zip dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1693.0",
+    "dotenv": "^18.0.4"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.164",
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "zip": "^1.2.0"
+  }
+}

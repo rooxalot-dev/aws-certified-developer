@@ -1,0 +1,43 @@
+A anatomia de uma função Lambda
+    - Uma funcção Lambda é composta por 5 elementos:
+        + Handler: É o ponto de entrada do código, onde a execução da função começa. 
+                   É o método que será chamado quando a função for invocada.
+        + Runtime: É o ambiente de execução onde o código será executado. 
+                   A AWS Lambda suporta várias linguagens de programação, como Python, Node.js, Java, C#, Go, entre outras, todas em modelo Serverless
+        + Deployment Package: É o pacote que contém de fato a a funcção/código e suas dependências. 
+                              Pode ser um arquivo .zip ou um container Docker.
+        + Configuração: Definições de memória, timeout de execução, variáveis de ambiente, entre outras.
+        + Execution Role: É a função do IAM que define as permissões que a função Lambda terá para acessar outros recursos da AWS, como S3, DynamoDB, etc.
+
+    - Handler:
+        - O handler é a função que o Lambda chama quando é invocado
+        - Para cada runtime/linguagem, o nome da função handler é diferente, mas o conceito é o mesmo
+            + def lambda_handler(event, context) para Python,
+            + exports.handler = async (event) => {} para Node.js
+            + public String handleRequest(Map<String, String> event, Context context) para Java e etc.
+        - Todo handler recebe dois parâmetros: 
+            + event: Contém informações sobre o evento que disparou a execução da função Lambda. 
+                     Dependendo de quem lançou o evento, pode incluir dados como nome do evento, parâmetros de entrada, payloads, mensagens de filas, entre outros.
+            + context: Fornece informações sobre a execução da função Lambda, como o tempo restante para execução, o ID da solicitação, entre outros.
+        - DICA DE PROVA: Usar o `context.get_remianing_time_in_millis()` para verificar quanto tempo resta para a execução da função Lambda antes do timeout. (função em python no exemplo)
+    
+    - Ciclo de vida de execução:
+        - a execução de uma AWS Lambda Function ocorre em 3 steps:
+            + Init (Cold start)
+                - Download de código
+                - Inicialização do runtime
+                - Execução de código fora do handler (todas as outras funções que não sejam a função handler)
+            + Invoke (Warm start)
+                - Execução do handler
+                - Processamento do evento
+                - Retorno da resposta
+            + Shutdown
+                - Finalização do runtime
+                - Liberação de recursos
+                - Ocorre após algo em torno de 15 minutos sem uso
+        - Considerando esses steps, fica claro que o tempo de execução pode variar bastante devido ao cold start, poís a "infraestrutura" e o runtime podem não ter sido inicializados ainda
+            - Além disso, caso exista código que leva algum tempo para iniciar (conexões a bancos de dados, inicialização de bibliotecas, etc), isso impacta o cold start
+
+        - DICA: Inicializações de bancos de dados e/ou libs externas que sejam pesadas devem ser realizadas fora do handler, para que sejam reutilizadas nas execuções subsequentes.
+
+

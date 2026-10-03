@@ -1,0 +1,59 @@
+O que é Serverless:
+    - Serverless vem do inglês "Sem servidor" -> Sem gerenciamento de servidores:
+        - Obviamente ainda existem servidores, o porém é que a manutenção deste servidor é feita pelo provedor de nuvem, e não pelo desenvolvedor.
+        - Serve para que o desenvolvedor foque de fato no código e não na infraestrutura
+    - Provisionamento automatico de recursos (maquinas, redes, etc)
+    - Escalabilidade automática para picos de execução
+    - Alta disponibilidade
+    - Pago somente pelo que usar (pay-per-use) -> Somente nos momentos em que servidor estiver em uso por alguma chamada que haverá cobrança
+
+AWS Lambda:
+    - É o serviço de computação serverless da AWS
+    - Você pode executar código sem precisar supervisionar/gerenciar servidores
+    - Disponivel para desenvolvimento em VÁRIAS linguagens (Java, .NET, Node.js, Python, Ruby, Go, PowerShell, etc)
+    - Executa o código em resposta a eventos (uma requisição HTTP, um arquivo enviado para o S3, uma mensagem em uma fila do SQS, etc)
+    - Escala automaticamente por demanda (como explicado no trecho Serverless acima)
+    - Pago pelo numero de requests e tempo de execução do código (como explicado no trecho Serverless acima)
+
+Alguns casos de uso comuns (aparecem muito em prova):
+    - API Serverless
+        - Tecnologias usadas:
+            + API Gateway
+            + AWS Lambda
+            + DynamoDB
+        - Exemplos:
+            + Rest API sem servidores para escala automatica e custo zero quando ocioso
+    - Processamento de arquivos
+        - Tecnologias usadas:
+            + S3
+            + AWS Lambda
+        - Exemplos:
+            + Dado um evento de upload em um bucket S3 especifico, é possivel obter o arquivo que foi enviado e processar ele, para redimensionar, 
+            converter para outro formato, processar um JSON, etc.
+        
+Boas praticas:
+    - Mantenha suas funções pequnas e focadas em escopos menores (Single Responsability Principle)
+    - Variaveis de ambiente para configurações
+    - Habilite o X-RAy da AWS para tracing
+    - Configure timeout e memoria adequados ao payload que será trafegado
+    
+PONTOS IMPORTANTES PARA PROVA:
+    - A arquitetura de serverless da AWS (AWS Lambda) é event-driven
+        + Um evento de upload, download, uma requisição HTTP a um API Gateway, etc, podem disparar a execução de uma função lambda
+        
+    - Timeout máximo de execução: 15 minutos (900s)
+        - CAI MUITO NA PROVA
+    
+    - Memória: de 128MB até 10.240MB (10GB)
+        - CPU proporcional a memória
+    
+    - Package size: 50MB zipado, 250MB descompactado (pacote é a imagem de execução lambda)
+        - User layers para libs grandes (layers são pacotes de bibliotecas que podem ser compartilhados entre funções)
+
+    - Storage/tmp: 512MB atpe 10.240 (10 GB)
+        - É efêmero e não é persistido
+
+    - Execuções concorrentes: 1000 por padrão
+        - Pode ser solicitado aumento de limite
+
+    - Lambdas são Stateless e não persistem informações entre execuções, cada request é independente!

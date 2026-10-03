@@ -1,0 +1,72 @@
+O que é?
+    - IAM: Da sigla Identity and Access Management, é o serviço de usuários e permissões da AWS.
+    - Esse serviço é resposnável por dizer QUEM pode fazer O QUÊ na sua conta AWS
+
+Como é estruturado:
+    - Ele é estruturado em 4 pilares:
+        + Users: Usuários individuais com credenciais permanentes
+        + Groups: Grupos de usuários dom permissões compartilhadas (atreladas ao grupo)
+        + Roles: Indentidades com permissões temporárias (como um papel temporário de um determinado usuário ou grupo)
+        + Policies: Definição de permissões (em JSON) que podem ser atreladas a usuários, grupos ou roles
+
+    - Uma analogia para explicar esses 4 pilares:
+        + Em uma empresa, os funcionários (users) são alocados em times (groups) com responsabilidades e permissões compartilhadas
+        + Em momentos em que um gestor deste funcionário saí de ferias, outro pode assumir TEMPORARIAMENTE suas responsabilidades (roles)
+        + O que essas responsabilidades permitem fazer é definido em um documento da empresa (policies) que descreve o que cada funcionário/time/papel pode ou não fazer.
+
+    
+- USERS
+    - Pode-se ter até 5000 usuários por conta
+    - Podem ter 2 tipos de acesso:
+        + Console Access
+            - Usando usuário e senha
+            - Para acesso via navegador
+            - EXTREMAMENTE recomendado que haja um cadastro de MFA para segurança do acesso
+        + Programmatic Access (via API, CLI, SDK)
+            - Possui um Access key ID e um Secret key
+            - Para acesso via CLI, SDK, APIs, etc.
+            - Normalmente utilizado para acessos programaticos, como implementações de soluções
+    - Podem pertencer a multiplos grupos
+    - As permissões podem ser atribuidas diretamente ao usuário ou ao grupo
+
+- GROUPS
+    - Pode-se ter até 300 grupos por conta
+    - É a coleção de usuários com permissões compartilhadas
+    - Sua principal vantagem é a facilidade de gerenciamento e escala, uma vez que pode-se alterar ou adicionar permissões a grupos ao invés de usuários individuais
+    - PONTOS CHAVES DO EXAME:
+        + Grupos não possuem outros grupos dentro deles (não existe aninhamento)
+        + Grupos não possuem credenciais próprias
+    
+- ROLES (MUITO IMPORTANTE NO EXAME)
+    - Tratam-se de indentidades com credenciais TEMPORÁRIAS
+    - Como descrito acima, diferente dos groups, elas possuem credenciais de acesso
+    - Casos de uso:
+        + EC2 Instance Role: EC2 acessa um S3 e depois um DynamoDB sem hardocode de credenciais
+        + Lambda Execution Role: Lambda acessando outros serviços da AWS sem hardcode de credenciais
+        + Cross Account Access: Acesso a recursos de outra conta AWS
+        + Identity Federation Access Role: Usuários externos (como Google, Facebook, etc) acessando recursos da AWS sem necessidade de criar um usuário IAM para cada um
+    - Boa pratica: Sempre use roles para serviços AWS (EC2, Lambda, ECS, etc) ao invés de hardcode de credenciais para evitar vazamentos
+
+
+PONTOS CHAVES DO EXAME:
+    - Users vs Roles:
+        + Users tem credenciais permantences (Access keys)
+        + Roles tem credenciais temporárias, persistidas no STS (Security Token Service)
+    - Grupos 
+        + NÃO podem ser aninhados (grupos dentro de grupos)
+        + NÃO podem ser usuados como principal em policies
+    - Limites
+        + 5000 usuários por conta
+        + 300 grupos por conta
+        + Cada usuário pode ter até 10 grupos 
+    - Quando usar roles (MUITO IMPORTANTE)
+        + Serviços AWS que precisam acessar outros serviços AWS (EC2, Lambda, ECS, etc)
+        + Quando é necessário acesso entre contas AWS (Cross Account Access)
+        + Quando há federação de identidade (Identity Federation) com provedores externos (Google, Facebook, etc)
+    - Melhores praticas
+        NUNCA TENHA SUAS CREDENCIAIS HARDCODED
+        ROLES DO IAM PARA EC2, LAMBDA E ECS
+        ROTACIONE ACCESS KEYS REGULARMENTE
+    - Por ultimo, para fixar:
+        - Se a pergunta conter tiver "credenciais temporárias" ou serviço acessando outro serviço, pense em IAM ROLE
+

@@ -1,0 +1,42 @@
+- Geral:
+    - São 65 questões, das quais 50 são validas e possuem pontuação e 15 são piloto, sem valor (porém não há como saber quais são quais)
+    - A pontuação minima é de 720 de 1000 pontos para aprovação
+    - A prova tem em torno 130 minutos de duração (média de 2min por questão)
+    - Questões não respondidas são consideradas erradas, vale mais a pena responder todas as questões do que deixar em branco
+
+
+Estruturas do exame, dominios e pontuação:
+    - Existem 2 formatos de questões:
+        + Múltipla escolha: 1 resposta correta entre 4 alternativas
+        + Múltipla resposta: 2 ou mais respostas corretas entre 5+ alternativas
+            - Neste cenário, ou se acerta todas as corretas ou não se pontua na questão
+
+
+4 Dominios:
+    - Existem 4 dominios de conhecimento que são avaliados na prova, cada um com peso diferente:
+        + Desenvolvimento com serviços AWS (Lambda, ECS, DynamoDB, API Gateway, SQS, SNS) - 32%
+        + Segurança (IAM, Cognito, KMS, Secrets Manager, STS e Criptografia) - 26%
+        + Implantação (CodePipeline, CodeDeploy, CloudFormation, SAM e CDK) - 24%
+        + Observabilidade e Solução de Problemas/Otimização (CloudWatch, X-Ray, Troubleshooting) - 18%
+
+
+Dicas de Estudo e Metodologia:
+    - Não é algo escrito na pedra, mas algo que funciona é:
+        + Assista a aula com atenção, anotando os pontos criticos levantados para o exame
+        + Execute o Lab de acordo com cada passo no git. NÃO PULE NENHUM para que a pratica fixe
+        + Releia os PDFs da aula no dia seguinte, para fixar o conteúdo com o espaçamento temporal
+
+
+Plano de estudos:
+    - Semana 1 
+        + Seções 1–3 Introdução, Fundamentos, IAM e Lambda
+    - Semana 2 
+        + Seções 4–5 API Gateway e DynamoDB para Desenvolvedores
+    - Semana 3 
+        + Seções 6–7 S3, ElastiCache e Mensageria (SQS, SNS, EventBridge)
+    - Semana 4 
+        + Seções 8–9 Containers (ECS, ECR) e CI/CD
+    - Semana 5 
+        + Seções 10–11 IaC (CloudFormation, SAM, CDK) e Segurança
+    - Semana 6 
+        + Seções 12–16 Monitoramento, EC2, Serviços Complementares + Simulados

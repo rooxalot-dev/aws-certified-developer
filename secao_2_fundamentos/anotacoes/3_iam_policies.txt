@@ -1,0 +1,33 @@
+O que são?:
+    - Policies (politicas) no IAM são documentos em JSON que definem permissões de acesso a recursos da AWS.
+
+Anatomia de uma policy
+    + Version: É a versão da linguagem (sempre 2012-10-17)
+    + Effect: É o efeito da policy, podendo ser Allow (permitir) ou Deny (negar) - OBRIGATORIO
+    + Action: Ação que será permitida ou negada dependendo do Effect (Ex: s3:GetObject, s3:ListBucket, etc) - OBRIGATORIO
+    + Resource: O recurso que será afetado pela policy (Ex: arn:aws:s3:::meu-bucket/*) - OBRIGATORIO
+    + Condition: Condições que devem ser atendidas para que a policy seja aplicada (Ex: ip address, MFA, etc)
+    + Principal: Define quem é o principal (usuário/role) afetado pela policy (Ex: usuário, role)
+
+Tipos de IAM Policies:
+    - AWS Managed: São as pré existentes na AWS, não podem ser alteradas, mas podem ser atribuídas a usuários, grupos ou roles. Ex: AmazonS3ReadOnlyAccess
+    - Customer Managed: São as criadas pelo proprio usuário da conta AWS, são reutilizaveis para diversos outros cenários caso necessário, possuem versionamento e são a abordagem recomendada para ambientes produtivos
+    - Inline: São as policies criadas diretamente em um usuário, grupo ou role, não podem ser reutilizadas e preferencialmente devem ser evitadas
+
+Principio do menor privilégio:
+    - Este principio é extremamente importante e recomendado, ele dita que ao invés de dar permissões gerais de ações a recursos (usando o wildcard *),
+        deve-se sempre procurar dar permissões específicas, garantindo que o usuário/role/grupo tenha apenas o acesso necessário para realizar suas tarefas.
+ 
+Lógica de avaliação de policies (importante no exame):
+    - A ordem de avaliação é a seguinte:
+        + 1 Há um explicit deny na policy do (user, role ou grupo) para a ação e recurso? Se sim, o acesso é negado e o fluxo se encerra
+        + 2 Há um explicit allow na policy do (user, role ou grupo) para a ação e recurso? Se sim, o acesso é permitido e o fluxo se encerra
+        + 3 Se não houver explicit deny ou allow, o acesso é negado por default (implicit deny)
+    - De forma resumida: O explicit deny SEMPRE vence, e nenhum allow pode sobrescrever-lo
+
+PONTOS CHAVES DO EXAME:
+    - Em uma policy, é obrigatório o Effect, Action e Resource
+    - Principal é obrigatoria apenas em Resource Based Policies
+    - Os tipos de policies são: AWS Managed, Customer Managed e Inline
+    - O fluxo de avaliação de policies é sempre nesta ordem: Explicit Deny -> Explicit Allow -> Implicit Deny
+        - Se não houver match (não há policy que permita ou negue explicitamente), o acesso é negado por default (Implicit Deny)
